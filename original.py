@@ -33,7 +33,6 @@ r_stimulus = 50
 r_grating  = 15
 r_total = r_stimulus + r_grating
 
-
 # init position
 central_pos = [r_total, ScreenSize[1] - r_total]
 
@@ -72,7 +71,6 @@ fixation_dot = psychopy.visual.Circle(
 def change():
     index=random.randrange(0,6)
     print(index)
-    print(gratings[index].ori)
 
     if change_type == ChangeType.Rotation:
         

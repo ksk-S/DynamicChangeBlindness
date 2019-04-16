@@ -1,4 +1,5 @@
 import numpy as np
+import math
 import random
 import psychopy.visual
 import psychopy.event
@@ -6,9 +7,13 @@ import psychopy.core
 
 #params
 
-# speed = 2
-rotation_speed = 
-# degrees
+# speed in rad/step
+rotation_speed = math.pi/100
+
+# circle radius
+motion_radius = 100
+
+# gabor change (degrees)
 change_angle = 20
 
 ScreenSize =[500, 500]
@@ -21,13 +26,13 @@ r_grating  = 15
 r_total = r_stimulus + r_grating
 
 # duration of experiment
-max_steps = 100
+max_steps = 500
 
 # timing of gabor change
 change_step = random.randrange(max_steps/4,3*max_steps/4)
 
 # init position
-central_pos = [r_total, ScreenSize[1] - r_total]
+central_pos = [(ScreenSize[0]/2) - motion_radius, (ScreenSize[1]/2)]
 sitmulus_angle = 0
 
 win = psychopy.visual.Window(
@@ -82,31 +87,23 @@ step = 0
 
 while keep_going:
 
-    if (step >= max_steps)
+    if (step >= max_steps):
         keep_going = False
 
-    # move coordinates
-    sitmulus_angle = sitmulus_angle + rotationSpeed);
-
-            double d = mainVariables[3];
-            float ballX = 200 + (float) ( d*Math.cos(newAngle));
-            float ballY = 200 + (float) ( d*Math.sin(newAngle));
-
-            float[] newPosition = {ballX,ballY,newAngle,mainVariables[3]};
-            return newPosition;
-
-    if (status == 0):
-        central_pos = [central_pos[0], central_pos[1] - speed]
-    elif (status >= 1):
-        central_pos = [central_pos[0] + speed, central_pos[1]]
+    # update positions
+    sitmulus_angle = sitmulus_angle + rotation_speed;
+    central_pos = [ScreenSize[0]/2 + motion_radius * math.cos(sitmulus_angle), ScreenSize[1]/2 + motion_radius * math.sin(sitmulus_angle)]
     
-    #update positions
     fixation_dot.pos = [central_pos[0] - ScreenSize[0]/2, central_pos[1] - ScreenSize[1]/2]
     fixation_dot.draw()
     
     for i in range(6):
         gratings[i].pos = [x_pos[i] + central_pos[0] - ScreenSize[0]/2, y_pos[i] + central_pos[1] - ScreenSize[1]/2]
         gratings[i].draw()
+
+    # change gabor
+    if (step == change_step ):
+        change()
     
     win.flip()
 
