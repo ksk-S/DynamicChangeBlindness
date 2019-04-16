@@ -16,7 +16,7 @@ class ChangeType(Enum):
 #params
 
 # 0 or 1
-is_control = 1
+is_control = 0
 
 
 change_type = ChangeType.Rotation
@@ -69,8 +69,10 @@ fixation_dot = psychopy.visual.Circle(
 )
 
 
-def Change():
+def change():
     index=random.randrange(0,6)
+    print(index)
+    print(gratings[index].ori)
 
     if change_type == ChangeType.Rotation:
         
@@ -79,6 +81,8 @@ def Change():
     elif change_type == ChangeType.Shift:
     
         x_pos[index] = x_pos[index] + 2
+
+    print(gratings[index].ori)
 
 
 clock = psychopy.core.Clock()
@@ -95,14 +99,14 @@ while keep_going:
         status = 1
         
         if is_control == 0:
-            Change()
+            change()
             
     elif ( status == 1 and central_pos[0] >  ScreenSize[0]/ 2 ):
         
         status = 2
         
         if is_control == 1:
-            Change()
+            change()
         
     elif ( status == 2 and central_pos[0] > - r_total  + ScreenSize[0] ):
         
