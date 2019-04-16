@@ -1,3 +1,4 @@
+import math
 import numpy as np
 import random
 import psychopy.visual
@@ -11,27 +12,32 @@ class ChangeType(Enum):
     Rotation = 0
     Shift = 1
 
-
-
-#params
-
+# experiment parameter
 # 0 or 1
 is_control = 0
 
 
 change_type = ChangeType.Rotation
 
+
+#space params
+ScreenSize =[500, 500]
+
 speed = 2
 change_angle = 20
 
-ScreenSize =[500, 500]
-
-x_pos = [43,  0, -43, -43,   0,  43]
-y_pos = [25, 50, 25, -25, -50, -25]
-
-r_stimulus = 50
+r_stimulus = 60
 r_grating  = 15
 r_total = r_stimulus + r_grating
+
+
+# define shape
+cos60 = math.sqrt(3) / 2
+sin60 = 0.5
+
+x_pos = [cos60*r_stimulus,          0, -cos60*r_stimulus, -cos60*r_stimulus,           0,  cos60*r_stimulus]
+y_pos = [sin60*r_stimulus, r_stimulus,  sin60*r_stimulus, -sin60*r_stimulus, -r_stimulus, -sin60*r_stimulus]
+
 
 # init position
 central_pos = [r_total, ScreenSize[1] - r_total]
@@ -68,9 +74,8 @@ fixation_dot = psychopy.visual.Circle(
 )
 
 
-def change():
+def Change():
     index=random.randrange(0,6)
-    print(index)
 
     if change_type == ChangeType.Rotation:
         
@@ -79,8 +84,6 @@ def change():
     elif change_type == ChangeType.Shift:
     
         x_pos[index] = x_pos[index] + 2
-
-    print(gratings[index].ori)
 
 
 clock = psychopy.core.Clock()
@@ -97,14 +100,14 @@ while keep_going:
         status = 1
         
         if is_control == 0:
-            change()
+            Change()
             
     elif ( status == 1 and central_pos[0] >  ScreenSize[0]/ 2 ):
         
         status = 2
         
         if is_control == 1:
-            change()
+            Change()
         
     elif ( status == 2 and central_pos[0] > - r_total  + ScreenSize[0] ):
         
