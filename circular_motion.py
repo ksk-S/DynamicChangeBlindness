@@ -1,27 +1,19 @@
 import numpy as np
+import math
 import random
 import psychopy.visual
 import psychopy.event
 import psychopy.core
 
-from enum import Enum
-
-class ChangeType(Enum):
-    
-    Rotation = 0
-    Shift = 1
-
-
-
 #params
 
-# 0 or 1
-is_control = 0
+# speed in rad/step
+rotation_speed = math.pi/100
 
+# circle radius
+motion_radius = 100
 
-change_type = ChangeType.Rotation
-
-speed = 2
+# gabor change (degrees)
 change_angle = 20
 
 ScreenSize =[500, 500]
@@ -33,9 +25,15 @@ r_stimulus = 50
 r_grating  = 15
 r_total = r_stimulus + r_grating
 
-# init position
-central_pos = [r_total, ScreenSize[1] - r_total]
+# duration of experiment
+max_steps = 500
 
+# timing of gabor change
+change_step = random.randrange(max_steps/4,3*max_steps/4)
+
+# init position
+central_pos = [(ScreenSize[0]/2) - motion_radius, (ScreenSize[1]/2)]
+sitmulus_angle = 0
 
 win = psychopy.visual.Window(
     size=ScreenSize,
@@ -54,7 +52,7 @@ for i in range(6):
         units="pix",
         ori=random.randrange(0,360),
         sf=1.0 / (r_grating *2)
-    )
+        )
     )
     
 fixation_dot = psychopy.visual.Circle(
@@ -70,60 +68,42 @@ fixation_dot = psychopy.visual.Circle(
 
 def change():
     index=random.randrange(0,6)
-    print(index)
-
-    if change_type == ChangeType.Rotation:
-        
-        gratings[index].ori = gratings[index].ori + change_angle
-
-    elif change_type == ChangeType.Shift:
-    
-        x_pos[index] = x_pos[index] + 2
-
-    print(gratings[index].ori)
+    print(index)    
+    gratings[index].ori = gratings[index].ori + change_angle
 
 
 clock = psychopy.core.Clock()
 keep_going = True
+step = 0
 
-status = 0
+#??
+# 1 
+# class ChangeType(Enum):
+    
+#     GratingMotion = 0
+#     GratingColor = 1
+#     BackgroundColor = 2
+
 
 while keep_going:
-#    grating.phase = np.mod(clock.getTime() / 0.5, 1)
 
-    # status changes
-    if ( status == 0 and central_pos[1] < r_total ):
-            
-        status = 1
-        
-        if is_control == 0:
-            change()
-            
-    elif ( status == 1 and central_pos[0] >  ScreenSize[0]/ 2 ):
-        
-        status = 2
-        
-        if is_control == 1:
-            change()
-        
-    elif ( status == 2 and central_pos[0] > - r_total  + ScreenSize[0] ):
-        
+    if (step >= max_steps):
         keep_going = False
 
-
-    # move coordinates
-    if (status == 0):
-        central_pos = [central_pos[0], central_pos[1] - speed]
-    elif (status >= 1):
-        central_pos = [central_pos[0] + speed, central_pos[1]]
+    # update positions
+    sitmulus_angle = sitmulus_angle + rotation_speed;
+    central_pos = [ScreenSize[0]/2 + motion_radius * math.cos(sitmulus_angle), ScreenSize[1]/2 + motion_radius * math.sin(sitmulus_angle)]
     
-    #update positions
     fixation_dot.pos = [central_pos[0] - ScreenSize[0]/2, central_pos[1] - ScreenSize[1]/2]
     fixation_dot.draw()
     
     for i in range(6):
-        gratings[i].pos = [x_pos[i]+ central_pos[0] - ScreenSize[0]/2, y_pos[i] + central_pos[1] - ScreenSize[1]/2]
+        gratings[i].pos = [x_pos[i] + central_pos[0] - ScreenSize[0]/2, y_pos[i] + central_pos[1] - ScreenSize[1]/2]
         gratings[i].draw()
+
+    # change gabor
+    if (step == change_step ):
+        change()
     
     win.flip()
 
@@ -132,5 +112,7 @@ while keep_going:
 
     if len(keys) > 0:
         keep_going = False
+
+    step = step + 1
 
 win.close()
