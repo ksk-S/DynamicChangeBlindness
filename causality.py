@@ -24,8 +24,8 @@ change_type = ChangeType.Rotation
 
 #causality_type = CausalityType.Causal
 #causality_type = CausalityType.SpatialGap
-causality_type = CausalityType.TemporalGap
-#causality_type = CausalityType.PassThrough
+#causality_type = CausalityType.TemporalGap
+causality_type = CausalityType.PassThrough
 
 # Causality params
 space_A_and_B = 0
