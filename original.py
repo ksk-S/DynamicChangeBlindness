@@ -43,15 +43,30 @@ y_pos = [sin60*r_stimulus, r_stimulus,  sin60*r_stimulus, -sin60*r_stimulus, -r_
 central_pos = [r_total, ScreenSize[1] - r_total]
 
 
+# matlab parameters
+# gaborbgcolor = [.5 .5 .5 0];
+# bgcolor = gaborbgcolor.*256-1;
+# gaborSize = 150;
+# freq = gaborSize/5000;
+# sc = gaborSize/10; %Correlated with patch size
+
+# fixation
+# crossSize = 10;
+# crossThickness = 2;
+
+# change
+# movementIncrement = 10;
+# rotationSize = 15;
+
 win = psychopy.visual.Window(
     size=ScreenSize,
     units="pix",
-    fullscr=False
+    color = 255*[.5, .5, .5],
+    fullscr=False,
 )
 
 gratings = []
 for i in range(6):
-    #print (x_pos[i] , " " , y_pos[i])
     gratings.append(psychopy.visual.GratingStim(
         win=win,
         size=[r_grating*2, r_grating*2],
@@ -59,7 +74,8 @@ for i in range(6):
         mask="circle",
         units="pix",
         ori=random.randrange(0,360),
-        sf=1.0 / (r_grating *2)
+        sf=1.0 / (r_grating *2),
+        color = [.5, .5, .5],
     )
     )
     
