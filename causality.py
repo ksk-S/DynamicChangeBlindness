@@ -23,9 +23,11 @@ class CausalityType(Enum):
 change_type = ChangeType.Rotation
 
 #causality_type = CausalityType.Causal
-#causality_type = CausalityType.SpatialGap
+causality_type = CausalityType.SpatialGap
 #causality_type = CausalityType.TemporalGap
-causality_type = CausalityType.PassThrough
+#causality_type = CausalityType.PassThrough
+
+left_visible = False
 
 # Causality params
 space_A_and_B = 0
@@ -174,8 +176,9 @@ while keep_going:
         central_pos_B = [central_pos_B[0] + speed, central_pos_B[1] ]
     
     #update positions
-    fixation_dot_A.pos = [central_pos_A[0] - ScreenSize[0]/2, central_pos_A[1] - ScreenSize[1]/2]
-    fixation_dot_A.draw()
+    if(left_visible):
+        fixation_dot_A.pos = [central_pos_A[0] - ScreenSize[0]/2, central_pos_A[1] - ScreenSize[1]/2]
+        fixation_dot_A.draw()
 
     fixation_dot_B.pos = [central_pos_B[0] - ScreenSize[0]/2, central_pos_B[1] - ScreenSize[1]/2]
     fixation_dot_B.draw()
@@ -183,8 +186,9 @@ while keep_going:
 
 
     for i in range(6):
-        gratings_A[i].pos = [x_pos[i]+ central_pos_A[0] - ScreenSize[0]/2, y_pos[i] + central_pos_A[1] - ScreenSize[1]/2]
-        gratings_A[i].draw()
+        if(left_visible):
+            gratings_A[i].pos = [x_pos[i]+ central_pos_A[0] - ScreenSize[0]/2, y_pos[i] + central_pos_A[1] - ScreenSize[1]/2]
+            gratings_A[i].draw()
         
         gratings_B[i].pos = [x_pos[i]+ central_pos_B[0] - ScreenSize[0]/2, y_pos[i] + central_pos_B[1] - ScreenSize[1]/2]
         gratings_B[i].draw()

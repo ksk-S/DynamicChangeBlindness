@@ -17,7 +17,7 @@ class ChangeType(Enum):
 # 0 or 1
 is_control = 0
 
-change_type = ChangeType.GratingColor
+change_type = ChangeType.GratingMotion
 
 speed = 1.5
 change_angle = 30

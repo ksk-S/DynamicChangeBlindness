@@ -41,3 +41,7 @@ TODO
 
 Try these instead of official install https://psychologyit.uconn.edu/2017/09/20/instructions-for-installing-psychopy/
 Try reinstalling for python 3.5
+
+## References
+Inspired by this paper:
+Matlab library used in original paper: http://psychtoolbox.org/docs/
