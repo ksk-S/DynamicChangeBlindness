@@ -8,7 +8,7 @@ from enum import Enum
 
 # base graphic parameters
 # save video frames
-save_video = True
+save_video = False
 # make mouse invisible for video
 #if save_video:
 #    mouse = event.Mouse(visible=False)

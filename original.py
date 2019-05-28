@@ -6,9 +6,11 @@ import psychopy.event
 import psychopy.core
 import gabor_ball
 
-from enum import Enum
+from enum import IntEnum
 
-class ChangeType(Enum):
+save_video = False
+
+class ChangeType(IntEnum):
     
     Rotation = 0
     Shift = 1
@@ -102,11 +104,16 @@ while keep_going:
         gratings[i].draw()
     
     win.flip()
+    if save_video:
+        win.getMovieFrame()
 
     #escape
     keys = psychopy.event.getKeys()
 
     if len(keys) > 0:
         keep_going = False
+
+if save_video:
+    win.saveMovieFrames('original_' + ['rotation','shift','allRotation'][int(change_type)] + '_' + ['','control'][is_control] + '.mp4', fps=40)
 
 win.close()
