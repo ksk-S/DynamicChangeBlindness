@@ -34,7 +34,16 @@ sc = gabor_diameter/10
 contrast = 1
 
 
-def init(central_pos, ScreenSize, win):
+def init(central_pos, ScreenSize, win, size_factor=3):
+    # variables for stimulus
+    # radii
+    gabor_diameter  = 35 * size_factor
+    stimulus_diameter = gabor_diameter * 2
+    total_diameter = gabor_diameter + stimulus_diameter
+    gabor_freq = gabor_diameter/5000 # r_grating/800,
+    # gauss spatial constant
+    sc = gabor_diameter/10
+
     # define shape
     cos60 = math.sqrt(3) / 2
     sin60 = 0.5

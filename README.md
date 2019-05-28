@@ -13,6 +13,10 @@ if pygame install fails with `SDL.h not found` (Mac OS), run
 
 `pip install pygame==1.9.2`
 
+if getting errors when saving movies
+
+` pip install imageio==2.4.1`
+
 ------- Deprecated 
 
 Uses python 2.7

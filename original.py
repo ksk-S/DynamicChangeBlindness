@@ -18,7 +18,7 @@ class ChangeType(Enum):
 # 0 or 1
 is_control = 0
 
-change_type = ChangeType.Rotation
+change_type = ChangeType.AllRotation
 
 # space params
 # TODO case

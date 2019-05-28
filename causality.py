@@ -27,7 +27,7 @@ causality_type = CausalityType.SpatialGap
 #causality_type = CausalityType.TemporalGap
 #causality_type = CausalityType.PassThrough
 
-left_visible = False
+left_visible = True
 
 # Causality params
 space_A_and_B = 0
