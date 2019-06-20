@@ -23,6 +23,9 @@ import random
 # use this to control the size of all stimuli
 size_factor = 3
 
+# number of gabor patches
+n_patches = 6
+
 # variables for stimulus
 # radii
 gabor_diameter  = 35 * size_factor
@@ -45,16 +48,16 @@ def init(central_pos, ScreenSize, win, size_factor=3):
     sc = gabor_diameter/10
 
     # define shape
-    cos60 = math.sqrt(3) / 2
-    sin60 = 0.5
     sd = stimulus_diameter
-
-    x_pos = [cos60*sd/2,    0, -cos60*sd/2, -cos60*sd/2,     0,  cos60*sd/2]
-    y_pos = [sin60*sd/2, sd/2,  sin60*sd/2, -sin60*sd/2, -sd/2, -sin60*sd/2]
-
+    x_pos = []
+    y_pos = []
     gratings = []
 
-    for i in range(6):
+    for i in range(n_patches):
+        angle = math.pi*2*i/n_patches
+        x_pos.append(math.cos(angle)*sd/2)
+        y_pos.append(math.sin(angle)*sd/2)
+
         grating_pos = [x_pos[i]+ central_pos[0] - ScreenSize[0]/2, y_pos[i] + central_pos[1] - ScreenSize[1]/2],
         gratings.append(psychopy.visual.GratingStim(
             win = win,

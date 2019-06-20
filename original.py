@@ -20,10 +20,10 @@ class ChangeType(IntEnum):
 # 0 or 1
 is_control = 0
 
-change_type = ChangeType.AllRotation
+change_type = ChangeType.Rotation
 
 # space params
-# TODO case
+# TODO conssitent case
 ScreenSize =[800, 800]
 speed = 4
 change_angle = 15
@@ -47,17 +47,16 @@ y_pos = stim["y_pos"]
 
 
 def Change():
-    index=random.randrange(0,6)
+    index=random.randrange(0,gabor_ball.n_patches)
 
     if change_type == ChangeType.Rotation:
         gratings[index].ori = gratings[index].ori + change_angle
 
     elif change_type == ChangeType.AllRotation:
-        for index in range(0,5):
+        for index in range(gabor_ball.n_patches):
             gratings[index].ori = gratings[index].ori + change_angle
    
     elif change_type == ChangeType.Shift:
-    
         x_pos[index] = x_pos[index] + 2
 
 
@@ -99,7 +98,7 @@ while keep_going:
     fixation_dot.pos = [central_pos[0] - ScreenSize[0]/2, central_pos[1] - ScreenSize[1]/2]
     fixation_dot.draw()
     
-    for i in range(6):
+    for i in range(gabor_ball.n_patches):
         gratings[i].pos = [x_pos[i]+ central_pos[0] - ScreenSize[0]/2, y_pos[i] + central_pos[1] - ScreenSize[1]/2]
         gratings[i].draw()
     
