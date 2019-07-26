@@ -20,7 +20,7 @@ class ChangeType(IntEnum):
 # 0 or 1
 is_control = 0
 
-change_type = ChangeType.Rotation
+change_type = ChangeType.Shift
 
 # space params
 # TODO conssitent case
@@ -50,7 +50,7 @@ y_pos = stim["y_pos"]
 
 
 def Change():
-    index=0 #random.randrange(0,gabor_ball.n_patches)
+    index = random.randrange(0,gabor_ball.n_patches)
     print("rotated ", index)
     print("old ", gratings[index].ori)
 
@@ -63,7 +63,7 @@ def Change():
             gratings[index].ori = gratings[index].ori + change_angle
    
     elif change_type == ChangeType.Shift:
-        x_pos[index] = x_pos[index] + 2
+        gratings[index].phase = gratings[index].phase + 0.06 #0.05
 
     print("new ", gratings[index].ori)
 
