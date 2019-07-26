@@ -10,7 +10,6 @@ from enum import Enum
 
 save_video = False
 
-
 class ChangeType(Enum):
     
     Rotation = 0
@@ -26,12 +25,12 @@ class CausalityType(Enum):
 # EXP setting
 change_type = ChangeType.Rotation
 
-#causality_type = CausalityType.Causal
-causality_type = CausalityType.SpatialGap
+causality_type = CausalityType.Causal
+#causality_type = CausalityType.SpatialGap
 #causality_type = CausalityType.TemporalGap
 #causality_type = CausalityType.PassThrough
 
-left_visible = False
+left_visible = True
 
 # Causality params
 space_A_and_B = 0
@@ -50,10 +49,6 @@ change_angle = 20
 
 turn_height = 100
 
-r_stimulus = 40
-r_grating  = 15
-r_total = r_stimulus + r_grating
-
 if causality_type == CausalityType.PassThrough:
     space_A_and_B = -r_total * 2
 
@@ -61,9 +56,7 @@ if causality_type == CausalityType.PassThrough:
 cos60 = math.sqrt(3) / 2
 sin60 = 0.5
 
-x_pos = [cos60*r_stimulus,          0, -cos60*r_stimulus, -cos60*r_stimulus,           0,  cos60*r_stimulus]
-y_pos = [sin60*r_stimulus, r_stimulus,  sin60*r_stimulus, -sin60*r_stimulus, -r_stimulus, -sin60*r_stimulus]
-
+r_total = gabor_ball.total_diameter/2
 
 # init position
 central_pos_A = [r_total, ScreenSize[1] /2]
@@ -75,61 +68,16 @@ win = psychopy.visual.Window(
     fullscr=False
 )
 
-# init gratings
-gratings_A = []
-for i in range(6):
-    gratings_A.append(psychopy.visual.GratingStim(
-        win=win,
-        size=[r_grating*2, r_grating*2],
-        pos = [x_pos[i]+ central_pos_A[0] - ScreenSize[0]/2, y_pos[i] + central_pos_A[1] - ScreenSize[1]/2],
-        mask="circle",
-        units="pix",
-        ori=random.randrange(0,360),
-        sf=1.0 / (r_grating *2)
-    )
-    )
+stimA = gabor_ball.init(central_pos_A, ScreenSize, win)
+gratings_A = stimA["gratings"]
+fixation_dot_A = stimA["fixation_dot"]
 
-fixation_dot_A = psychopy.visual.Circle(
-    win=win,
-    pos = [central_pos_A[0] - ScreenSize[0]/2, central_pos_A[1] - ScreenSize[1]/2],
-    units="pix",
-    radius=3,
-    fillColor=[-1] * 3,
-    lineColor=[-1] * 3,
-    edges=128
-)
+stimB = gabor_ball.init(central_pos_B, ScreenSize, win)
+gratings_B = stimB["gratings"]
+fixation_dot_B = stimB["fixation_dot"]
 
-
-# gratings_B = []
-# for i in range(6):
-#     gratings_B.append(psychopy.visual.GratingStim(
-#         win=win,
-#         size=[r_grating*2, r_grating*2],
-#         pos = [x_pos[i]+ central_pos_B[0] - ScreenSize[0]/2, y_pos[i] + central_pos_B[1] - ScreenSize[1]/2],
-#         mask="circle",
-#         units="pix",
-#         ori=random.randrange(0,360),
-#         sf=1.0 / (r_grating *2)
-#     )
-#     )
-
-# fixation_dot_B = psychopy.visual.Circle(
-#     win=win,
-#     pos = [central_pos_B[0] - ScreenSize[0]/2, central_pos_B[1] - ScreenSize[1]/2],
-#     units="pix",
-#     radius=3,
-#     fillColor=[-1] * 3,
-#     lineColor=[-1] * 3,
-#     edges=128
-# )
-
-
-stim = gabor_ball.init(central_pos_B, ScreenSize, win)
-gratings_B = stim["gratings"]
-fixation_dot_B = stim["fixation_dot"]
-x_pos = stim["x_pos"]
-y_pos = stim["y_pos"]
-r_total = gabor_ball.total_diameter/2
+x_pos = stimA["x_pos"]
+y_pos = stimA["y_pos"]
 
 
 def Change():
