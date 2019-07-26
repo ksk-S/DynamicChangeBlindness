@@ -32,7 +32,7 @@ change_angle = 15
 central_pos = [gabor_ball.total_diameter/2, ScreenSize[1] - (gabor_ball.total_diameter/2)]
 # initial value for sin wave
 wave_angle = 0
-wave_amplitude = 20
+wave_amplitude = gabor_ball.stimulus_diameter/2
 
 win = psychopy.visual.Window(
     size=ScreenSize,
@@ -50,7 +50,7 @@ y_pos = stim["y_pos"]
 
 
 def Change():
-    index=random.randrange(0,gabor_ball.n_patches)
+    index=0 #random.randrange(0,gabor_ball.n_patches)
     print("rotated ", index)
     print("old ", gratings[index].ori)
 
@@ -74,7 +74,7 @@ keep_going = True
 status = 0
 
 while keep_going:
-    wave_angle = wave_angle + math.pi/30
+    wave_angle = wave_angle + math.pi/200
 #    grating.phase = np.mod(clock.getTime() / 0.5, 1)
 
     # status changes
@@ -111,11 +111,20 @@ while keep_going:
 
     
     for i in range(gabor_ball.n_patches):
-        gratings[i].pos = [x_pos[i]+ central_pos[0] - ScreenSize[0]/2, y_pos[i] + central_pos[1] - ScreenSize[1]/2]
-        if (i == 0):
-            gratings[i].pos[1] = gratings[i].pos[1] + wave_amplitude * math.sin(wave_angle)
+        angle = math.pi*2*i/gabor_ball.n_patches
+        if(i == 0):
+            x_pos[i] = wave_amplitude*math.cos(angle + wave_angle)
+            y_pos[i] = wave_amplitude*math.sin(angle + wave_angle)
         else:
-            gratings[i].pos[1] = gratings[i].pos[1] + wave_amplitude * math.cos(wave_angle)
+            x_pos[i] = wave_amplitude*math.cos(angle - wave_angle)
+            y_pos[i] = wave_amplitude*math.sin(angle - wave_angle)
+
+        gratings[i].pos = [x_pos[i]+ central_pos[0] - ScreenSize[0]/2, y_pos[i] + central_pos[1] - ScreenSize[1]/2]
+    
+        # if (i == 0):
+        #     gratings[i].pos[0] = gratings[i].pos[0] + wave_amplitude * math.sin(wave_angle)
+        # else:
+        #     gratings[i].pos[0] = gratings[i].pos[0] + wave_amplitude * math.cos(wave_angle)
         # line = psychopy.visual.Line(win, start=fixation_dot.pos, end=gratings[i].pos, lineColor = [0,0,0])
         # line.draw()
         gratings[i].draw()
