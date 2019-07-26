@@ -24,7 +24,7 @@ import random
 size_factor = 3
 
 # number of gabor patches
-n_patches = 2
+n_patches = 6
 
 # variables for stimulus
 # radii

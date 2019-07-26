@@ -133,7 +133,7 @@ r_total = gabor_ball.total_diameter/2
 
 
 def Change():
-    index=random.randrange(0,6)
+    index=random.randrange(0,gabor_ball.n_patches)
 
     gratings_B[index].ori = gratings_B[index].ori + change_angle
 
@@ -192,7 +192,7 @@ while keep_going:
 
 
 
-    for i in range(6):
+    for i in range(gabor_ball.n_patches):
         if(left_visible):
             gratings_A[i].pos = [x_pos[i]+ central_pos_A[0] - ScreenSize[0]/2, y_pos[i] + central_pos_A[1] - ScreenSize[1]/2]
             gratings_A[i].draw()
