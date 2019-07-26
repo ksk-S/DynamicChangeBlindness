@@ -18,7 +18,7 @@ class ChangeType(IntEnum):
 
 # experiment parameter
 # 0 or 1
-is_control = 1
+is_control = 0
 
 change_type = ChangeType.Rotation
 
@@ -29,7 +29,7 @@ speed = 4
 change_angle = 15
 
 # init position
-central_pos = [gabor_ball.total_diameter/2, ScreenSize[1] - (gabor_ball.total_diameter/2)]
+central_pos = [(ScreenSize[0])/2, ScreenSize[1] - (gabor_ball.total_diameter/2)]
 
 win = psychopy.visual.Window(
     size=ScreenSize,
@@ -45,9 +45,21 @@ fixation_dot = stim["fixation_dot"]
 x_pos = stim["x_pos"]
 y_pos = stim["y_pos"]
 
+# init speeds for after explosion
+speeds = []
+for i in range(gabor_ball.n_patches):
+    vx = random.randrange(-speed,speed)
+    vy = math.sqrt(speed*speed - vx*vx) 
+    sign = random.randrange(0,1)
+    if(sign==1):
+        vy = -vy
+    speeds.append([vx,vy])
+
 
 def Change():
     index=random.randrange(0,gabor_ball.n_patches)
+    print("rotated ", index)
+    print("before ", gratings[index].ori)
 
     if change_type == ChangeType.Rotation:
         gratings[index].ori = gratings[index].ori + change_angle
@@ -66,40 +78,37 @@ keep_going = True
 status = 0
 
 while keep_going:
-#    grating.phase = np.mod(clock.getTime() / 0.5, 1)
-
     # status changes
-    if ( status == 0 and central_pos[1] < (gabor_ball.total_diameter/2) ):
-            
+    if ( status == 0 and central_pos[1] < (ScreenSize[0]/2) ):
         status = 1
-        
         if is_control == 0:
             Change()
             
     elif ( status == 1 and central_pos[0] >  ScreenSize[0]/ 2 ):
-        
         status = 2
-        
         if is_control == 1:
             Change()
         
     elif ( status == 2 and central_pos[0] > - (gabor_ball.total_diameter/2)  + ScreenSize[0] ):
-        
         keep_going = False
 
 
     # move coordinates
     if (status == 0):
         central_pos = [central_pos[0], central_pos[1] - speed]
-    elif (status >= 1):
-        central_pos = [central_pos[0] + speed, central_pos[1]]
+    #elif (status >= 1):
+        #central_pos = [central_pos[0] + speed, central_pos[1]]
     
     #update positions
     fixation_dot.pos = [central_pos[0] - ScreenSize[0]/2, central_pos[1] - ScreenSize[1]/2]
     fixation_dot.draw()
     
     for i in range(gabor_ball.n_patches):
-        gratings[i].pos = [x_pos[i]+ central_pos[0] - ScreenSize[0]/2, y_pos[i] + central_pos[1] - ScreenSize[1]/2]
+        if (status >= 1):
+            gratings[i].pos = [gratings[i].pos[0] - speeds[i][0], gratings[i].pos[1] - speeds[i][1]] 
+        else:
+            gratings[i].pos = [x_pos[i]+ central_pos[0] - ScreenSize[0]/2, y_pos[i] + central_pos[1] - ScreenSize[1]/2]
+        
         gratings[i].draw()
     
     win.flip()
