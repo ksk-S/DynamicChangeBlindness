@@ -78,6 +78,7 @@ fixation_dot = psychopy.visual.Circle(
 
 
 def Change():
+    print("change")
     index=random.randrange(0,6)
 
     if change_type == ChangeType.Rotation:

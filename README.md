@@ -13,6 +13,10 @@ if pygame install fails with `SDL.h not found` (Mac OS), run
 
 `pip install pygame==1.9.2`
 
+if getting errors when saving movies
+
+` pip install imageio==2.4.1`
+
 ------- Deprecated 
 
 Uses python 2.7
@@ -41,3 +45,7 @@ TODO
 
 Try these instead of official install https://psychologyit.uconn.edu/2017/09/20/instructions-for-installing-psychopy/
 Try reinstalling for python 3.5
+
+## References
+Inspired by this paper:
+Matlab library used in original paper: http://psychtoolbox.org/docs/
