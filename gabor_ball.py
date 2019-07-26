@@ -24,7 +24,7 @@ import random
 size_factor = 3
 
 # number of gabor patches
-n_patches = 6
+n_patches = 2
 
 # variables for stimulus
 # radii
@@ -91,3 +91,10 @@ def init(central_pos, ScreenSize, win, size_factor=3):
         "y_pos": y_pos,
     }
     return ball
+
+# def move_one_patch(gabor_id, new_position):
+#     pos = gratings[gabor_id].pos
+#     grating_pos = [x_pos[gabor_id]+ central_pos[0] - ScreenSize[0]/2, y_pos[gabor_id] + central_pos[1] - ScreenSize[1]/2],
+
+#     gratings[gabor_id].pos = grating_pos
+
