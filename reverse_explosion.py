@@ -28,8 +28,8 @@ ScreenSize =[800, 800]
 speed = 4
 change_angle = 15
 
-# init position
-central_pos = [ScreenSize[0]/2,  ScreenSize[1]/2]
+# target position
+target_central_pos = [gabor_ball.total_diameter/2,  gabor_ball.total_diameter/2]
 
 win = psychopy.visual.Window(
     size=ScreenSize,
@@ -38,19 +38,15 @@ win = psychopy.visual.Window(
     fullscr=False,
 )
 
-stim = gabor_ball.init(central_pos, ScreenSize, win)
+stim = gabor_ball.init(target_central_pos, ScreenSize, win)
 gratings = stim["gratings"]
 fixation_dot = stim["fixation_dot"]
 x_pos = stim["x_pos"]
 y_pos = stim["y_pos"]
 
-# store the target positions
 target_pos = []
 for i in range(gabor_ball.n_patches):
-    target_pos.append(gratings[i].pos)
-
-print(target_pos[0][0]) # I don't know why but the array is one level deeper
-
+    target_pos.append(gratings[i].pos[0])
     
 # Define initial positions for each gabor balls
 for i in range(gabor_ball.n_patches):
@@ -64,21 +60,21 @@ for i in range(gabor_ball.n_patches):
     else:
         gratings[i].pos = [0, expand_pos - ScreenSize[0]*2 - ScreenSize[1]]
         
-    gratings[i].pos -= central_pos
+    #gratings[i].pos -= central_pos
     gratings[i].draw()
     
 # Calcurate the speeds from the intial positions and the target positions, 
 speeds = []
 for i in range(gabor_ball.n_patches):
-    dist_x = gratings[i].pos[0] - target_pos[i][0][0]
-    dist_y = gratings[i].pos[1] - target_pos[i][0][1]
+    dist_x = gratings[i].pos[0] - target_pos[i][0]
+    dist_y = gratings[i].pos[1] - target_pos[i][1]
     dist = math.sqrt(dist_x * dist_x + dist_y*dist_y)
 
-    speed =[]
-    speed.append(dist_x / 200) # need to adjust the speed
-    speed.append(dist_y / 200) # need to adjust the speed
+    tmp_speed =[]
+    tmp_speed.append(dist_x / 200) # need to adjust the speed
+    tmp_speed.append(dist_y / 200) # need to adjust the speed
 
-    speeds.append(speed)
+    speeds.append(tmp_speed)
 
 def Change():
     index = random.randrange(0,gabor_ball.n_patches)
@@ -118,31 +114,37 @@ target_time = 0
 
 while keep_going:
     
-    if ( status == 0 and IsNearBy(gratings[0].pos, target_pos[0][0]) ):
+    if ( status == 0 and IsNearBy(gratings[0].pos, target_pos[0]) ):
         status = 1
 
         target_time = clock.getTime()
         if is_control == 0:
             Change()
 
-    elif ( status == 1 and clock.getTime() - target_time > control_time ):
-        status = 2
+    # elif ( status == 1 and clock.getTime() - target_time > control_time ):
+    #     status = 2
+    #     print("Status is 2")
 
-        if is_control == 1:
-            Change()
-        
-    # elif ( status == 2 and (gratings[0].pos[0]< 0 or gratings[0].pos[0] > ScreenSize[1] )):
-    #     keep_going = False        
+    #     if is_control == 1:
+    #         Change()
 
     
     # move coordinates    
-    fixation_dot.pos = [central_pos[0] - ScreenSize[0]/2, central_pos[1] - ScreenSize[1]/2]
+    fixation_dot.pos = [target_central_pos[0] - ScreenSize[0]/2, target_central_pos[1] - ScreenSize[1]/2]
     fixation_dot.draw()
 
+    if(status == 1):
+        target_central_pos = [target_central_pos[0] + speed, target_central_pos[1]]
+        if (target_central_pos[0] > - (gabor_ball.total_diameter/2)  + ScreenSize[0]):  
+            keep_going = False
+
     for i in range(gabor_ball.n_patches):
-        #print(gratings[i].pos[0])
-        gratings[i].pos = [gratings[i].pos[0] - speeds[i][0], gratings[i].pos[1] - speeds[i][1]] 
-        gratings[i].draw()
+        if (status != 1):
+            gratings[i].pos = [gratings[i].pos[0] - speeds[i][0], gratings[i].pos[1] - speeds[i][1]] 
+            gratings[i].draw()
+        else:
+            gratings[i].pos = [x_pos[i] + target_central_pos[0] - ScreenSize[0]/2, y_pos[i] + target_central_pos[1] - ScreenSize[1]/2]
+            gratings[i].draw()
         # if(status == 2 and ( (gratings[i].pos[0] > ScreenSize[0]/2) or (gratings[i].pos[0] <  ScreenSize[0]/2)) ):
         #     keep_going = False
         #     #print(gratings[i].pos[0])        

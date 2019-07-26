@@ -69,17 +69,22 @@ while keep_going:
 #    grating.phase = np.mod(clock.getTime() / 0.5, 1)
 
     # status changes
-    if ( status == 0 and central_pos[1] < (gabor_ball.total_diameter/2) ):   
+    if ( status == 0 and central_pos[1] < (gabor_ball.total_diameter/2) ):
+            
         status = 1
+        
         if is_control == 0:
             Change()
             
-    elif ( status == 1 and central_pos[0] >  ScreenSize[0]/ 2 ): 
+    elif ( status == 1 and central_pos[0] >  ScreenSize[0]/ 2 ):
+        
         status = 2
+        
         if is_control == 1:
             Change()
         
-    elif ( status == 2 and central_pos[0] > - (gabor_ball.total_diameter/2)  + ScreenSize[0] ):  
+    elif ( status == 2 and central_pos[0] > - (gabor_ball.total_diameter/2)  + ScreenSize[0] ):
+        
         keep_going = False
 
 
