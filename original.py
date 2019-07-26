@@ -18,7 +18,7 @@ class ChangeType(IntEnum):
 
 # experiment parameter
 # 0 or 1
-is_control = 0
+is_control = 1
 
 change_type = ChangeType.Rotation
 
@@ -113,6 +113,6 @@ while keep_going:
         keep_going = False
 
 if save_video:
-    win.saveMovieFrames('original_' + ['rotation','shift','allRotation'][int(change_type)] + '_' + ['','control'][is_control] + '.mp4', fps=40)
+    win.saveMovieFrames('original' + ['rotation','shift','allRotation'][int(change_type)] + '_' + ['','control'][is_control] + '.mp4', fps=40)
 
 win.close()
