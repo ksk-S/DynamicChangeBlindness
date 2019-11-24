@@ -23,6 +23,7 @@ change_type = ChangeType.Rotation
 is_control = 0
 
 # space params
+n_patches = 6
 speed = 4
 change_angle = 15
 
@@ -32,13 +33,13 @@ status = 0
 keep_going = False
 
 def Change():
-    index=random.randrange(0,gabor_ball.n_patches)
+    index=random.randrange(0, stim.n_patches)
 
     if change_type == ChangeType.Rotation:
         stim.gratings[index].ori = stim.gratings[index].ori + change_angle
 
     elif change_type == ChangeType.AllRotation:
-        for index in range(gabor_ball.n_patches):
+        for index in range(stim.n_patches):
             stim.gratings[index].ori = stim.gratings[index].ori + change_angle
    
     elif change_type == ChangeType.Shift:
@@ -60,7 +61,7 @@ def ResetTrial():
     global central_pos, stim, clock, status, keep_going
     
     central_pos = [gabor_ball.total_diameter/2, ScreenSize[1] - (gabor_ball.total_diameter/2)]
-    stim = gabor_ball.init(central_pos, ScreenSize, win)
+    stim = gabor_ball.init(central_pos, ScreenSize, win, n_patches)
     clock = psychopy.core.Clock()
     status = 0
     keep_going = True
@@ -115,11 +116,12 @@ def Update():
     stim.fixation_dot.pos = [central_pos[0] - ScreenSize[0]/2, central_pos[1] - ScreenSize[1]/2]
     stim.fixation_dot.draw()
     
-    for i in range(gabor_ball.n_patches):
+    for i in range(stim.n_patches):
         stim.gratings[i].pos = [stim.x_pos[i]+ central_pos[0] - ScreenSize[0]/2, stim.y_pos[i] + central_pos[1] - ScreenSize[1]/2]
         stim.gratings[i].draw()
     
     win.flip()
+    
     if save_video:
         win.getMovieFrame()
 

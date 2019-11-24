@@ -22,31 +22,22 @@ import random
 # use this to control the size of all stimuli
 size_factor = 3
 
-# number of gabor patches
-n_patches = 6
+contrast = 1
 
-# variables for stimulus
-# radii
 gabor_diameter  = 35 * size_factor
 stimulus_diameter = gabor_diameter * 2
 total_diameter = gabor_diameter + stimulus_diameter
 gabor_freq = gabor_diameter/5000 # r_grating/800,
 # gauss spatial constant
 sc = gabor_diameter/10
-contrast = 1
 
 
-def init(central_pos, ScreenSize, win, size_factor=3):
+def init(central_pos, ScreenSize, win, n_patches = 6, size_factor=3):
+    
+    global gabor_diameter, stimulus_diameter, total_diameter, gabor_freq, sc
+
     # variables for stimulus
     # radii
-    
-    global gabor_diameter
-    global stimulus_diameter
-    global total_diameter
-    global gabor_freq
-    global sc
-
-    
     gabor_diameter  = 35 * size_factor
     stimulus_diameter = gabor_diameter * 2
     total_diameter = gabor_diameter + stimulus_diameter
@@ -97,5 +88,6 @@ def init(central_pos, ScreenSize, win, size_factor=3):
     ball.fixation_dot = fixation_dot
     ball.x_pos = x_pos
     ball.y_pos = y_pos
+    ball.n_patches = n_patches
     
     return ball

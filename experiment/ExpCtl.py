@@ -4,19 +4,18 @@ import random
 import DataCtl
 import ExpOriginal
 import ExpBackground
+import ExpComposition
 
-num_trials = 2
-
-trial_list = []
+num_trials = 10
 
 ScreenSize =[800, 800]
 
 subId = 0
 
 ExperimentTypes = {
-  "background"  : True,
-  "original"    : True,
-  "zigzag"      : False,
+  "original"        : True,
+  "background"      : True,
+  "composition"     : True,
 }
 
 def StartExp(info):
@@ -46,11 +45,13 @@ def CreateTrialList():
     return list1
 
 
-def ExpInitHandler(func, *arg):
+def ExpInitHandler(win, ScreenSize, callback):
     return func(*args)
+    
 
 def ExpRunHandler(func, *arg):
     return func(*args)
+
 
 
 
@@ -72,15 +73,15 @@ def StartCondition(exp):
     
         ExpOriginal.Init(win, ScreenSize)
         
-        #call = ExpRunHandler(ExpOriginal.Init)
-        #call(win, ScreenSize)
-        
-            
     elif exp == 'background':
         
         ExpBackground.Init(win, ScreenSize)
+       
+    elif exp == 'composition':
         
-    
+        ExpComposition.Init(win, ScreenSize)
+
+        
     ShowInstruction()
     
     
@@ -94,8 +95,10 @@ def StartCondition(exp):
         elif exp == 'background':
             
             ExpBackground.StartTrial(condition)
-
         
+        elif exp == 'composition':
+            
+            ExpComposition.StartTrial(condition)
         
         resKey = GetResponse()
         
