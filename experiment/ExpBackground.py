@@ -22,8 +22,9 @@ change_type = ChangeType.GratingMotion
 # 0 or 1
 is_control = 0
 
-speed = 4
-change_angle = 15
+n_patches = 6
+speed = 10
+change_angle = 30
 
 # init position
 clock = psychopy.core.Clock()
@@ -31,17 +32,6 @@ status = 0
 keep_going = False
 
 
-
-def changeBackground():
-
-    if change_type == ChangeType.GratingMotion:
-        background.ori = 0
-
-    elif change_type == ChangeType.GratingColor:
-        background.color = [0,0,1]
-
-    elif change_type == ChangeType.BackgroundColor:
-        window.color = [0,0,1]
     
 def Init(w, s):
 
@@ -53,27 +43,43 @@ def Init(w, s):
     ResetTrial()
 
 
+def CreateDots():
+    
+    global dot_stim
+    
+    n_dots = 1000
+    
+
+    dot_stim = psychopy.visual.DotStim(
+        win=win,
+        units="pix",
+        nDots=n_dots,
+        coherence = 1,
+        fieldPos=(0, 0),
+        fieldSize=(800, 800),
+        dotSize=5.0,
+        dotLife=2,
+        dir=0.0,
+        speed=speed,
+        color=(0.0, 0.0, 0.0),
+        opacity=1.0
+    )
+    
 def ResetTrial():
     
     global central_pos, stim, clock, status, keep_going, background, start_time
     
     central_pos = [ScreenSize[0]/2,ScreenSize[1]/2]
-    stim = gabor_ball.init(central_pos, ScreenSize, win)
+    stim = gabor_ball.init(central_pos, ScreenSize, win, n_patches)
     clock = psychopy.core.Clock()
     status = 0
     keep_going = True
     
     start_time = clock.getTime()  
 
+    CreateDots()
     
-    background = psychopy.visual.GratingStim(
-        win=win,
-        size=ScreenSize,
-        pos = [0,0],
-        units="pix",
-        ori=-90,
-        sf=5.0 / ScreenSize[0],
-    )
+    
     
     if change_type == ChangeType.BackgroundColor:
         window.color = [1,0,0]
@@ -97,13 +103,23 @@ def StartTrial(condition):
         win.saveMovieFrames('original' + ['rotation','shift','allRotation'][int(change_type)] + '_' + ['','control'][is_control] + '.mp4', fps=40)
  
 
+def changeBackground():
+
+    if change_type == ChangeType.GratingMotion:
+        dot_stim.dir = 90
+
+    elif change_type == ChangeType.GratingColor:
+        dot_stim.color = [0,0,1]
+
+    elif change_type == ChangeType.BackgroundColor:
+        window.color = [0,0,1]
+        
+        
 def Update():
     
     global status, keep_going, central_pos, stim
     
     elapsed_time = clock.getTime() - start_time 
-    #print elapsed_time
-    # status changes
     if ( status == 0 and elapsed_time > 3 ):
             
         status = 1
@@ -115,7 +131,7 @@ def Update():
             stim.gratings[index].ori = stim.gratings[index].ori + change_angle
             
             
-    elif ( status == 1 and  elapsed_time > 6  ):
+    elif ( status == 1 and  elapsed_time > 5  ):
         
         status = 2
         
@@ -123,23 +139,20 @@ def Update():
             index=random.randrange(0,6)
             stim.gratings[index].ori = stim.gratings[index].ori + change_angle
         
-    elif ( status == 2 and elapsed_time > 9  ):
+    elif ( status == 2 and elapsed_time > 8  ):
         
         keep_going = False
     
     
-    #update posision
-    background.phase = np.mod(clock.getTime() * speed, 1)
-    if change_type == ChangeType.GratingColor or change_type == ChangeType.GratingMotion:
-        background.draw()
-    
+    dot_stim.draw()
+
     
     #update positions
-    stim.fixation_dot.pos = [central_pos[0] - ScreenSize[0]/2, central_pos[1] - ScreenSize[1]/2]
+    #stim.fixation_dot.pos = [central_pos[0] - ScreenSize[0]/2, central_pos[1] - ScreenSize[1]/2]
     stim.fixation_dot.draw()
     
     
-    for i in range(gabor_ball.n_patches):
+    for i in range(stim.n_patches):
         stim.gratings[i].pos = [stim.x_pos[i]+ central_pos[0] - ScreenSize[0]/2, stim.y_pos[i] + central_pos[1] - ScreenSize[1]/2]
         stim.gratings[i].draw()
         
@@ -153,4 +166,5 @@ def Update():
 
     if len(keys) > 0:
         keep_going = False
+
 
