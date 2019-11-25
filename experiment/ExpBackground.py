@@ -23,7 +23,7 @@ change_type = ChangeType.GratingMotion
 is_control = 0
 
 n_patches = 6
-speed = 10
+speed = 3
 change_angle = 30
 
 # init position
@@ -45,12 +45,12 @@ def Init(w, s):
 
 def CreateDots():
     
-    global dot_stim
+    global background_stim
     
     n_dots = 1000
     
 
-    dot_stim = psychopy.visual.DotStim(
+    background_stim = psychopy.visual.DotStim(
         win=win,
         units="pix",
         nDots=n_dots,
@@ -59,11 +59,26 @@ def CreateDots():
         fieldSize=(800, 800),
         dotSize=5.0,
         dotLife=2,
-        dir=0.0,
+        dir=-90.0,
         speed=speed,
         color=(0.0, 0.0, 0.0),
         opacity=1.0
     )
+    
+def CreateBGGrating():
+
+    global background_stim
+
+    background_stim = psychopy.visual.GratingStim(
+        win=win,
+        size=ScreenSize,
+        pos = [0,0],
+        contrast = 0.25,
+        opacity = 0.5,
+        units="pix",
+        ori=-90,
+        sf=7.5 / ScreenSize[0],
+    )   
     
 def ResetTrial():
     
@@ -77,8 +92,8 @@ def ResetTrial():
     
     start_time = clock.getTime()  
 
-    CreateDots()
-    
+    #CreateDots()
+    CreateBGGrating()
     
     
     if change_type == ChangeType.BackgroundColor:
@@ -106,10 +121,18 @@ def StartTrial(condition):
 def changeBackground():
 
     if change_type == ChangeType.GratingMotion:
-        dot_stim.dir = 90
+        
+        print(background_stim.__class__.__name__)
+        
+        if(background_stim.__class__.__name__ == "DotStim"):
+            background_stim.dir = 0.0
+        
+        if(background_stim.__class__.__name__ == "GratingStim"):
+            background_stim.ori = 0.0
+        
 
     elif change_type == ChangeType.GratingColor:
-        dot_stim.color = [0,0,1]
+        background_stim.color = [0,0,1]
 
     elif change_type == ChangeType.BackgroundColor:
         window.color = [0,0,1]
@@ -143,8 +166,8 @@ def Update():
         
         keep_going = False
     
-    
-    dot_stim.draw()
+    background_stim.phase = np.mod(clock.getTime() * speed, 1)
+    background_stim.draw()
 
     
     #update positions
