@@ -18,12 +18,24 @@ class ChangeType(Enum):
 
 change_type = ChangeType.GratingMotion
 
+class BackgroundType(Enum):
+    
+    Grating = 0
+    Dots = 1
+    Grid = 2
+
+background_type = BackgroundType.Grid
+
+
 # experiment parameter
 # 0 or 1
 is_control = 0
 
 n_patches = 6
+
 speed = 3
+dots_speed = 6
+
 change_angle = 30
 
 # init position
@@ -45,10 +57,7 @@ def Init(w, s):
 
 def CreateDots():
     
-    global background_stim
-    
     n_dots = 1000
-    
 
     background_stim = psychopy.visual.DotStim(
         win=win,
@@ -58,31 +67,56 @@ def CreateDots():
         fieldPos=(0, 0),
         fieldSize=(800, 800),
         dotSize=5.0,
-        dotLife=2,
-        dir=-90.0,
-        speed=speed,
+        dotLife=5,
+        dir=90.0,
+        speed=dots_speed,
         color=(0.0, 0.0, 0.0),
         opacity=1.0
     )
     
+    return background_stim
+   
+    
+    
 def CreateBGGrating():
-
-    global background_stim
 
     background_stim = psychopy.visual.GratingStim(
         win=win,
+        tex = 'sinXsin',
         size=ScreenSize,
         pos = [0,0],
-        contrast = 0.25,
-        opacity = 0.5,
+        contrast = 0.4,
+        opacity = 1.0,
         units="pix",
         ori=-90,
-        sf=7.5 / ScreenSize[0],
-    )   
+        sf=5 / ScreenSize[0],
+    )
+    
+    return background_stim
+
+    
+def CreateGrid():
+    
+    
+    background_stim = psychopy.visual.GratingStim(
+        win=win,
+        tex = 'sqrXsqr',
+        size=ScreenSize,
+        pos = [0,0],
+        contrast = 0.1,
+        opacity = 1.0,
+        units="pix",
+        ori=-90,
+        sf=5 / ScreenSize[0],
+    )
+    
+    return background_stim
+
+
     
 def ResetTrial():
     
-    global central_pos, stim, clock, status, keep_going, background, start_time
+    global central_pos, stim, clock, status, keep_going, background, start_time, background_stim
     
     central_pos = [ScreenSize[0]/2,ScreenSize[1]/2]
     stim = gabor_ball.init(central_pos, ScreenSize, win, n_patches)
@@ -91,11 +125,15 @@ def ResetTrial():
     keep_going = True
     
     start_time = clock.getTime()  
-
-    #CreateDots()
-    CreateBGGrating()
     
-    
+    if background_type == BackgroundType.Grating:
+        background_stim = CreateBGGrating()
+    elif background_type == BackgroundType.Dots:
+        background_stim = CreateDots()
+    elif background_type == BackgroundType.Grid:
+        background_stim = CreateGrid()
+        
+      
     if change_type == ChangeType.BackgroundColor:
         window.color = [1,0,0]
 
@@ -122,13 +160,13 @@ def changeBackground():
 
     if change_type == ChangeType.GratingMotion:
         
-        print(background_stim.__class__.__name__)
-        
-        if(background_stim.__class__.__name__ == "DotStim"):
+        if background_type == BackgroundType.Grating:
+            background_stim.ori = 180
+        elif background_type == BackgroundType.Dots:
             background_stim.dir = 0.0
-        
-        if(background_stim.__class__.__name__ == "GratingStim"):
-            background_stim.ori = 0.0
+        elif background_type == BackgroundType.Grid:
+            background_stim.ori = 180
+            
         
 
     elif change_type == ChangeType.GratingColor:
@@ -162,18 +200,21 @@ def Update():
             index=random.randrange(0,6)
             stim.gratings[index].ori = stim.gratings[index].ori + change_angle
         
-    elif ( status == 2 and elapsed_time > 8  ):
+    elif ( status == 2 and elapsed_time > 7  ):
         
         keep_going = False
     
-    background_stim.phase = np.mod(clock.getTime() * speed, 1)
+    
+    #update positions
+    
+    if background_type != BackgroundType.Dots:
+        background_stim.phase = [np.mod(clock.getTime() * speed, 1) , 0]
+    
     background_stim.draw()
 
     
-    #update positions
     #stim.fixation_dot.pos = [central_pos[0] - ScreenSize[0]/2, central_pos[1] - ScreenSize[1]/2]
     stim.fixation_dot.draw()
-    
     
     for i in range(stim.n_patches):
         stim.gratings[i].pos = [stim.x_pos[i]+ central_pos[0] - ScreenSize[0]/2, stim.y_pos[i] + central_pos[1] - ScreenSize[1]/2]
