@@ -18,6 +18,7 @@ class ChangeType(IntEnum):
 
 change_type = ChangeType.Rotation
 
+
 # experiment parameter
 # 0 or 1
 is_control = 0
@@ -27,7 +28,11 @@ end_time = 2.5
 
 # space params
 n_patches = 6
-speed = 4
+
+grating_speed = 4
+
+init_patches_distance = 400
+
 change_angle = 30
 
 # init position
@@ -60,27 +65,17 @@ def Init(w, s):
     
 def InitialisePos():
     
-    global target_pos, speeds
+    global stim, target_pos, fixation_speed, speeds
 
     target_pos = []
     for i in range(stim.n_patches):
         target_pos.append(stim.gratings[i].pos)
-
-    
-    # Define initial positions for each gabor balls
+  
     for i in range(stim.n_patches):
-        expand_pos = random.randrange(0, ScreenSize[0]*2 +ScreenSize[1]*2)
-        if expand_pos < ScreenSize[0]:
-            stim.gratings[i].pos = [expand_pos, 0]
-        elif expand_pos < ScreenSize[0]+ScreenSize[1]:
-            stim.gratings[i].pos = [ScreenSize[0], expand_pos - ScreenSize[0]]
-        elif expand_pos < ScreenSize[0]*2+ScreenSize[1]:
-            stim.gratings[i].pos = [expand_pos - ScreenSize[0]-ScreenSize[1], ScreenSize[1]]    
-        else:
-            stim.gratings[i].pos = [0, expand_pos - ScreenSize[0]*2 - ScreenSize[1]]
-        
-        stim.gratings[i].pos -= central_pos
-        stim.gratings[i].draw()
+        angle = random.randrange(0.0, 360.0)
+        stim.gratings[i].pos = [init_patches_distance * math.cos(angle), init_patches_distance * math.sin(angle)]
+
+    fixation_speed =  (ScreenSize[1] - gabor_ball.total_diameter) * ( grating_speed / ScreenSize[0] )
 
     speeds = []
     for i in range(stim.n_patches):
@@ -89,21 +84,28 @@ def InitialisePos():
         dist = math.sqrt(dist_x * dist_x + dist_y*dist_y)
     
         speed =[]
-        speed.append(dist_x / 200) # need to adjust the speed
-        speed.append(dist_y / 200) # need to adjust the speed
+        speed.append(dist_x * (grating_speed / ScreenSize[0]) ) # need to adjust the speed
+        speed.append(dist_y * (grating_speed / ScreenSize[1]) ) # need to adjust the speed
     
         speeds.append(speed)
+    
     
     
 def ResetTrial():
     
     global central_pos, stim, clock, status, keep_going
     
+    #target pos
+    central_pos = [gabor_ball.total_diameter, gabor_ball.total_diameter]
 
-    central_pos = [ScreenSize[0]/2,ScreenSize[1]/2]
+    
     stim = gabor_ball.init(central_pos, ScreenSize, win, n_patches)
     
+    
     InitialisePos()
+    
+    #initial pos
+    central_pos = [gabor_ball.total_diameter, ScreenSize[1]]
     
     clock = psychopy.core.Clock()
     status = 0
@@ -161,6 +163,13 @@ def Update():
         keep_going = False        
     
     #update positions
+    
+    
+    if (status == 0):
+        central_pos = [central_pos[0], central_pos[1] - fixation_speed]
+    else:
+        central_pos = [central_pos[0], central_pos[1] + fixation_speed]
+        
     stim.fixation_dot.pos = [central_pos[0] - ScreenSize[0]/2, central_pos[1] - ScreenSize[1]/2]
     stim.fixation_dot.draw()
     
