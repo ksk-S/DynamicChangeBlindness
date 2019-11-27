@@ -5,6 +5,7 @@ import DataCtl
 import ExpOriginal
 import ExpBackground
 import ExpComposition
+import ExpDxCB
 
 num_trials = 10
 
@@ -16,6 +17,7 @@ ExperimentTypes = {
   "original"        : True,
   "background"      : True,
   "composition"     : True,
+  "dx_cb"           : True,
 }
 
 def StartExp(info):
@@ -80,6 +82,10 @@ def StartCondition(exp):
     elif exp == 'composition':
         
         ExpComposition.Init(win, ScreenSize)
+    
+    elif exp == 'dx_cb':
+
+        ExpDxCB.Init(win, ScreenSize)
 
         
     ShowInstruction()
@@ -99,6 +105,10 @@ def StartCondition(exp):
         elif exp == 'composition':
             
             ExpComposition.StartTrial(condition)
+        
+        elif exp == 'dx_cb':
+
+            ExpDxCB.StartTrial(condition)
         
         resKey = GetResponse()
         
