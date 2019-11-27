@@ -23,8 +23,8 @@ change_type = ChangeType.Rotation
 # 0 or 1
 is_control = 0
 
-control_time = 1.0
-end_time = 2.5
+control_time = 0.75
+end_time = 2.0
 
 # space params
 n_patches = 6
@@ -33,7 +33,7 @@ grating_speed = 4
 
 init_patches_distance = 400
 
-change_angle = 30
+change_angle = 15
 
 # init position
 clock = psychopy.core.Clock()
@@ -168,7 +168,7 @@ def Update():
     if (status == 0):
         central_pos = [central_pos[0], central_pos[1] - fixation_speed]
     else:
-        central_pos = [central_pos[0], central_pos[1] + fixation_speed]
+        central_pos = [central_pos[0]+ fixation_speed, central_pos[1] ]
         
     stim.fixation_dot.pos = [central_pos[0] - ScreenSize[0]/2, central_pos[1] - ScreenSize[1]/2]
     stim.fixation_dot.draw()
