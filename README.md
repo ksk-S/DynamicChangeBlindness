@@ -8,6 +8,7 @@ conda install numpy scipy matplotlib pandas pyopengl pillow lxml openpyxl xlrd c
 conda install -c conda-forge pyglet pysoundfile python-bidi moviepy pyosf
 pip install zmq json-tricks pyparallel sounddevice pygame pysoundcard psychopy_ext psychopy
 pip install PyQt5
+pip install pyglet==1.2.4
 ```
 
 if pygame install fails with `SDL.h not found` (Mac OS), run

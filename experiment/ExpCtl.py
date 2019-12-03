@@ -136,7 +136,7 @@ def ShowInstruction():
     text = psychopy.visual.TextStim(
         win=win,
         pos=(0.0, 0.0),
-        text="In this session, you will see a moving object cosists of multipul grating patches. You will need fixate the central dot all the time. Your task is to detect any changes in one of the grating patches.\n\nPress any key to start",
+        text="In this session, you will see a moving object consisting of multiple grating patches. You will need to fixate the central dot at all times. Your task is to detect any changes in one of the grating patches.\n\nPress any key to start",
         color=[-1, -1, -1]
     )
     
