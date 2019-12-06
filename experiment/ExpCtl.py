@@ -5,6 +5,7 @@ import DataCtl
 import ExpOriginal
 import ExpBackground
 import ExpComposition
+import ExpDxCB
 
 num_trials = 20
 
@@ -18,7 +19,7 @@ ExperimentTypes = {
   "compositionRandToRand"   : True,
   "compositionRandToCircle" : True,
   "compositionCicleToRand"  : True,
-
+  "dx_cb"           : True,
 }
 
 def StartExp(info):
@@ -91,6 +92,14 @@ def StartCondition(exp):
     elif exp == 'compositionCicleToRand':
         
         ExpComposition.Init(win, ScreenSize)
+<<<<<<< HEAD
+=======
+    
+    elif exp == 'dx_cb':
+
+        ExpDxCB.Init(win, ScreenSize)
+
+>>>>>>> 1a437d9f967978681753b99325b3239ce36fe100
         
     ShowInstruction()
     
@@ -119,6 +128,10 @@ def StartCondition(exp):
             
             ExpComposition.movement_type = ExpComposition.MovementType.CircleToRandom
             ExpComposition.StartTrial(condition)
+        
+        elif exp == 'dx_cb':
+
+            ExpDxCB.StartTrial(condition)
         
         resKey = GetResponse()
         
