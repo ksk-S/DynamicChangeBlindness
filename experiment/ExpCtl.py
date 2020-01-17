@@ -7,16 +7,18 @@ import ExpBackground
 import ExpComposition
 import ExpDxCB
 
-num_trials = 10
+num_trials = 20
 
 ScreenSize =[800, 800]
 
 subId = 0
 
 ExperimentTypes = {
-  "original"        : True,
-  "background"      : True,
-  "composition"     : True,
+  "original"                : False,
+  "background"              : False,
+  "compositionRandToRand"   : True,
+  "compositionRandToCircle" : True,
+  "compositionCicleToRand"  : True,
   "dx_cb"           : True,
 }
 
@@ -79,14 +81,25 @@ def StartCondition(exp):
         
         ExpBackground.Init(win, ScreenSize)
        
-    elif exp == 'composition':
+    elif exp == 'compositionRandToRand':
         
         ExpComposition.Init(win, ScreenSize)
+        
+    elif exp == 'compositionRandToCircle':
+        
+        ExpComposition.Init(win, ScreenSize)
+        
+    elif exp == 'compositionCicleToRand':
+        
+        ExpComposition.Init(win, ScreenSize)
+<<<<<<< HEAD
+=======
     
     elif exp == 'dx_cb':
 
         ExpDxCB.Init(win, ScreenSize)
 
+>>>>>>> 1a437d9f967978681753b99325b3239ce36fe100
         
     ShowInstruction()
     
@@ -102,8 +115,18 @@ def StartCondition(exp):
             
             ExpBackground.StartTrial(condition)
         
-        elif exp == 'composition':
+        elif exp == 'compositionRandToRand':
+            ExpComposition.movement_type = ExpComposition.MovementType.RandomToRandom
+            ExpComposition.StartTrial(condition)
+        
+        elif exp == 'compositionRandToCircle':
             
+            ExpComposition.movement_type = ExpComposition.MovementType.RandomToCircle
+            ExpComposition.StartTrial(condition)
+        
+        elif exp == 'compositionCicleToRand':
+            
+            ExpComposition.movement_type = ExpComposition.MovementType.CircleToRandom
             ExpComposition.StartTrial(condition)
         
         elif exp == 'dx_cb':
@@ -111,6 +134,8 @@ def StartCondition(exp):
             ExpDxCB.StartTrial(condition)
         
         resKey = GetResponse()
+        
+        print( 'target' if condition == 0 else 'control' )
         
         response = 1 if resKey[0] == "right" else 0
         
@@ -123,7 +148,8 @@ def ShowInstruction():
    
     text = psychopy.visual.TextStim(
         win=win,
-        text="In this session, you will see a moving object cosists of multipul grating patches. You will need fixate the central dot all the time. Your task is to detect any changes in one of the grating patches.\n\nPress any key to start",
+        pos=(0.0, 0.0),
+        text="In this session, you will see a moving object consisting of multiple grating patches. You will need to fixate the central dot at all times. Your task is to detect any changes in one of the grating patches.\n\nPress any key to start",
         color=[-1, -1, -1]
     )
     

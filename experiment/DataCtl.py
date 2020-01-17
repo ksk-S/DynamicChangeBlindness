@@ -1,13 +1,17 @@
-import random
-import numpy as np
 import csv
 from datetime import datetime
+import numpy as np
+import os
+import random
+
 
 
 data = []
 
 filename = ""
-dir = "Results"
+output_dir = "Results"
+if not os.path.exists(output_dir):
+    os.makedirs(output_dir)
 
 def Init(info):
     
@@ -22,12 +26,12 @@ def StoreData(trial):
 
 def SaveHeader():
     
-    with open(dir + "/" + filename, 'a', newline="") as f:
+    with open(output_dir + "/" + filename, 'a', newline="") as f:
         writer = csv.writer(f)
         writer.writerow(["SubId", "ExpType", "trialId", "condition", "response"])
 
 def SaveData(trial):
     
-    with open(dir + "/" + filename, 'a', newline="") as f:
+    with open(output_dir + "/" + filename, 'a', newline="") as f:
         writer = csv.writer(f)
         writer.writerow(trial)

@@ -19,12 +19,22 @@ class ChangeType(IntEnum):
 change_type = ChangeType.Rotation
 
 
+
+class MovementType(IntEnum):
+    
+    RandomToRandom = 0
+    RandomToCircle = 1
+    CircleToRandom = 2
+
+movement_type = MovementType.RandomToRandom
+
+
 # experiment parameter
 # 0 or 1
 is_control = 0
 
-control_time = 1.0
-end_time = 2.5
+control_time = 0.5
+end_time = 2.0
 
 # space params
 n_patches = 6
@@ -33,7 +43,7 @@ grating_speed = 4
 
 init_patches_distance = 400
 
-change_angle = 30
+change_angle = 15
 
 # init position
 clock = psychopy.core.Clock()
@@ -168,15 +178,39 @@ def Update():
     if (status == 0):
         central_pos = [central_pos[0], central_pos[1] - fixation_speed]
     else:
-        central_pos = [central_pos[0], central_pos[1] + fixation_speed]
+        central_pos = [central_pos[0]+ fixation_speed, central_pos[1] ]
         
     stim.fixation_dot.pos = [central_pos[0] - ScreenSize[0]/2, central_pos[1] - ScreenSize[1]/2]
     stim.fixation_dot.draw()
     
-    for i in range(stim.n_patches):
-        stim.gratings[i].pos = [stim.gratings[i].pos[0] - speeds[i][0], stim.gratings[i].pos[1] - speeds[i][1]] 
-        stim.gratings[i].draw()
+    if movement_type == MovementType.RandomToRandom:
     
+        for i in range(stim.n_patches):
+            stim.gratings[i].pos = [stim.gratings[i].pos[0] - speeds[i][0], stim.gratings[i].pos[1] - speeds[i][1]] 
+            stim.gratings[i].draw()
+    
+    elif movement_type == MovementType.RandomToCircle:
+        if status == 0:
+            for i in range(stim.n_patches):
+                stim.gratings[i].pos = [stim.gratings[i].pos[0] - speeds[i][0], stim.gratings[i].pos[1] - speeds[i][1]] 
+                stim.gratings[i].draw()
+        else:
+            for i in range(stim.n_patches):
+                stim.gratings[i].pos = [stim.x_pos[i]+ central_pos[0] - ScreenSize[0]/2, stim.y_pos[i] + central_pos[1] - ScreenSize[1]/2]
+                stim.gratings[i].draw()
+    
+    elif movement_type == MovementType.CircleToRandom:
+        if status == 0:
+            for i in range(stim.n_patches):
+                stim.gratings[i].pos = [stim.x_pos[i]+ central_pos[0] - ScreenSize[0]/2, stim.y_pos[i] + central_pos[1] - ScreenSize[1]/2]
+                stim.gratings[i].draw()
+        else:
+            for i in range(stim.n_patches):
+                stim.gratings[i].pos = [stim.gratings[i].pos[0] - speeds[i][0], stim.gratings[i].pos[1] - speeds[i][1]] 
+                stim.gratings[i].draw()
+    
+            
+            
     win.flip()
     
     if save_video:
