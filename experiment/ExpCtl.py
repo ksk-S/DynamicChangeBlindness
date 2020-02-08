@@ -5,7 +5,7 @@ import DataCtl
 import ExpOriginal
 import ExpBackground
 import ExpComposition
-import ExpDxCB
+import ExpSeparation
 
 num_trials = 20
 
@@ -16,10 +16,10 @@ subId = 0
 ExperimentTypes = {
   "original"                : False,
   "background"              : False,
-  "compositionRandToRand"   : True,
-  "compositionRandToCircle" : True,
-  "compositionCicleToRand"  : True,
-  "dx_cb"           : True,
+  "compositionRandToRand"   : False,
+  "compositionRandToCircle" : False,
+  "compositionCicleToRand"  : False,
+  "separation"              : True,
 }
 
 def StartExp(info):
@@ -92,15 +92,11 @@ def StartCondition(exp):
     elif exp == 'compositionCicleToRand':
         
         ExpComposition.Init(win, ScreenSize)
-<<<<<<< HEAD
-=======
-    
-    elif exp == 'dx_cb':
 
-        ExpDxCB.Init(win, ScreenSize)
-
->>>>>>> 1a437d9f967978681753b99325b3239ce36fe100
+    elif exp == 'separation':
         
+        ExpSeparation.Init(win, ScreenSize)    
+
     ShowInstruction()
     
     
@@ -129,9 +125,9 @@ def StartCondition(exp):
             ExpComposition.movement_type = ExpComposition.MovementType.CircleToRandom
             ExpComposition.StartTrial(condition)
         
-        elif exp == 'dx_cb':
-
-            ExpDxCB.StartTrial(condition)
+        elif exp == 'separation':
+            
+            ExpSeparation.StartTrial(condition)
         
         resKey = GetResponse()
         
@@ -149,7 +145,7 @@ def ShowInstruction():
     text = psychopy.visual.TextStim(
         win=win,
         pos=(0.0, 0.0),
-        text="In this session, you will see a moving object consisting of multiple grating patches. You will need to fixate the central dot at all times. Your task is to detect any changes in one of the grating patches.\n\nPress any key to start",
+        text="In this session, you will see a moving object cosists of multipul grating patches. You will need fixate the central dot all the time. Your task is to detect any changes in one of the grating patches.\n\nPress any key to start",
         color=[-1, -1, -1]
     )
     
