@@ -32,7 +32,7 @@ gabor_freq = gabor_diameter/5000 # r_grating/800,
 sc = gabor_diameter/10
 
 
-def init(central_pos, ScreenSize, win, size_factor=1.5):
+def init(central_pos, ScreenSize, win, n_patches = 6, size_factor=1.5):
 
     global gabor_diameter, stimulus_diameter, total_diameter, gabor_freq, sc
 
@@ -69,7 +69,7 @@ def init(central_pos, ScreenSize, win, size_factor=1.5):
             maskParams = {"sd": 5}, #{"fringeWidth":0.2},
             units = "pix",
             ori = ttt*180.0/math.pi,
-            ori = random.randrange(0,360),
+            # ori = random.randrange(0,360),
             # sf = gabor_freq,
             color = [1, 1, 1],
             contrast = contrast,

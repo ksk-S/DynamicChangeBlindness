@@ -60,7 +60,7 @@ def ResetTrial():
     
     global central_pos, stim, clock, status, keep_going
     
-    central_pos = [gabor_ball.total_diameter/2, ScreenSize[1] - (gabor_ball.total_diameter/2)]
+    central_pos = [pacman_ball.total_diameter/2, ScreenSize[1] - (pacman_ball.total_diameter/2)]
     stim = pacman_ball.init(central_pos, ScreenSize, win, n_patches)
     clock = psychopy.core.Clock()
     status = 0
@@ -90,7 +90,7 @@ def Update():
     global status, keep_going, central_pos, stim
     
     # status changes
-    if ( status == 0 and central_pos[1] < (gabor_ball.total_diameter/2) ):
+    if ( status == 0 and central_pos[1] < (pacman_ball.total_diameter/2) ):
             
         status = 1
         
@@ -104,7 +104,7 @@ def Update():
         if is_control == 1:
             Change()
         
-    elif ( status == 2 and central_pos[0] > - (gabor_ball.total_diameter/2)  + ScreenSize[0] ):
+    elif ( status == 2 and central_pos[0] > - (pacman_ball.total_diameter/2)  + ScreenSize[0] ):
         
         keep_going = False
 
