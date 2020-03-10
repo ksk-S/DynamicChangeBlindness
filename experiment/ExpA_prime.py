@@ -1,3 +1,5 @@
+import math
+import numpy as np
 import random
 import psychopy.visual
 import psychopy.event
@@ -30,12 +32,10 @@ clock = psychopy.core.Clock()
 status = 0
 keep_going = False
 
-# for creating 2 subgroups of gabors
-beta_idx = 0
-
 def Change():
-    global beta_idx
-    index = beta_idx
+    global stim
+    index=random.randrange(0, stim.n_patches)
+
     if change_type == ChangeType.Rotation:
         stim.gratings[index].ori = stim.gratings[index].ori + change_angle
 
@@ -59,7 +59,7 @@ def Init(w, s):
 
 def ResetTrial():
     
-    global central_pos, stim, clock, status, keep_going, beta_idx
+    global central_pos, stim, clock, status, keep_going
     
     central_pos = [gabor_ball.total_diameter/2, ScreenSize[1] - (gabor_ball.total_diameter/2)]
     stim = gabor_ball.init(central_pos, ScreenSize, win, n_patches)
@@ -69,9 +69,6 @@ def ResetTrial():
 
     for index in range(stim.n_patches):
         stim.gratings[index].ori = 0
-    beta_idx = random.randrange(0, stim.n_patches-1)
-    stim.gratings[beta_idx].ori = random.randrange(30, 150)
-    stim.gratings[beta_idx+1].ori = random.randrange(30, 150)
     
 
 def StartTrial(condition):

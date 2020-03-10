@@ -70,8 +70,9 @@ def ResetTrial():
     for index in range(stim.n_patches):
         stim.gratings[index].ori = 0
     beta_idx = random.randrange(0, stim.n_patches-1)
-    stim.gratings[beta_idx].ori = random.randrange(30, 150)
-    stim.gratings[beta_idx+1].ori = random.randrange(30, 150)
+    beta_ori = random.randrange(30, 150)
+    stim.gratings[beta_idx].ori = beta_ori
+    stim.gratings[beta_idx+1].ori = beta_ori
     
 
 def StartTrial(condition):
