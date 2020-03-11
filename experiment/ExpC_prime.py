@@ -41,8 +41,10 @@ def Change():
         while index == waiting_index:
             index = random.randrange(0, stim.n_patches)
     else:
+        waiting_index = random.randrange(0, stim.n_patches)
         index = random.randrange(0, stim.n_patches)
-        waiting_index = index
+        while index == waiting_index:
+            index = random.randrange(0, stim.n_patches)
 
     if change_type == ChangeType.Rotation:
         stim.gratings[index].ori = stim.gratings[index].ori + change_angle

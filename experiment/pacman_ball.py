@@ -39,24 +39,24 @@ def init(central_pos, ScreenSize, win, n_patches = 6, size_factor=1.5):
     # variables for stimulus
     # radii
     gabor_diameter  = 35 * size_factor
-    stimulus_diameter = gabor_diameter * 3.5
+    stimulus_diameter = gabor_diameter * 3.0
     total_diameter = gabor_diameter + stimulus_diameter
     gabor_freq = gabor_diameter/5000 # r_grating/800,
     # gauss spatial constant
     sc = gabor_diameter/10
 
     # define shape
-    sd = stimulus_diameter*1.2
+    sd = stimulus_diameter
     x_pos = []
     y_pos = []
     gratings = []
 
-
+    ini_phase = math.pi*2*random.random()
     for i in range(n_patches):
         angle = math.pi*2*i/n_patches #+ 0.25*math.pi
         ttt = math.pi - angle
-        x_pos.append(math.cos(angle)*sd/2)
-        y_pos.append(math.sin(angle)*sd/2)
+        x_pos.append(math.cos(angle+ini_phase)*sd/2)
+        y_pos.append(math.sin(angle+ini_phase)*sd/2)
 
         # grating_pos = [x_pos[i] - ScreenSize[0]/2, y_pos[i] - ScreenSize[1]/2]
         grating_pos = [x_pos[i]+ central_pos[0] - ScreenSize[0]/2, y_pos[i] + central_pos[1] - ScreenSize[1]/2]

@@ -33,14 +33,14 @@ subId = 0
 # }
 
 ExperimentTypes = {
-    "a"                       : False,
-    "a_prime"                 : False,
-    "b"                       : False,
+    # "a"                       : True,
+    # "a_prime"                 : True,
+    "b"                       : True,
     "b_prime"                 : True,
-    "c"                       : False,
-    "c_prime"                 : False,
-    "d"                       : False,
-    "d_prime"                 : False,
+    "c"                       : True,
+    "c_prime"                 : True,
+    "d"                       : True,
+    "d_prime"                 : True,
 }
 
 def StartExp(info):
