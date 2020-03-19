@@ -1,0 +1,12 @@
+digraph G {
+rankdir=LR;
+node [shape = circle];
+0 [label="p=0.666"]
+0 -> 0 [label="s=0, p=0.49"];
+0 -> 1 [label="s=1, p=0.51"];
+1 [label="p=0.323"]
+1 -> 0 [label="s=1, p=1"];
+2 [label="p=0.0104"]
+2 -> 0 [label="s=0, p=0.533"];
+2 -> 1 [label="s=1, p=0.467"];
+}
