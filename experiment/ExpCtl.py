@@ -7,19 +7,40 @@ import ExpBackground
 import ExpComposition
 import ExpSeparation
 
+import ExpA
+import ExpA_prime
+import ExpB
+import ExpB_prime
+import ExpC
+import ExpC_prime
+import ExpD
+import ExpD_prime
+
+
 num_trials = 20
 
 ScreenSize =[800, 800]
 
 subId = 0
 
+# ExperimentTypes = {
+#   "original"                : False,
+#   "background"              : False,
+#   "compositionRandToRand"   : False,
+#   "compositionRandToCircle" : False,
+#   "compositionCicleToRand"  : False,
+#   "separation"              : True,
+# }
+
 ExperimentTypes = {
-  "original"                : False,
-  "background"              : False,
-  "compositionRandToRand"   : False,
-  "compositionRandToCircle" : False,
-  "compositionCicleToRand"  : False,
-  "separation"              : True,
+    # "a"                       : True,
+    # "a_prime"                 : True,
+    "b"                       : True,
+    "b_prime"                 : True,
+    "c"                       : True,
+    "c_prime"                 : True,
+    "d"                       : True,
+    "d_prime"                 : True,
 }
 
 def StartExp(info):
@@ -55,8 +76,6 @@ def ExpInitHandler(win, ScreenSize, callback):
 
 def ExpRunHandler(func, *arg):
     return func(*args)
-
-
 
 
 def StartCondition(exp):
@@ -95,7 +114,40 @@ def StartCondition(exp):
 
     elif exp == 'separation':
         
-        ExpSeparation.Init(win, ScreenSize)    
+        ExpSeparation.Init(win, ScreenSize)
+
+    elif exp == "a":
+
+        ExpA.Init(win, ScreenSize)
+    
+    elif exp == "a_prime":
+
+        ExpA_prime.Init(win, ScreenSize)
+    
+    elif exp == "b":
+
+        ExpB.Init(win, ScreenSize)
+    
+    elif exp == "b_prime":
+
+        ExpB_prime.Init(win, ScreenSize)
+    
+    elif exp == "c":
+
+        ExpC.Init(win, ScreenSize)
+    
+    elif exp == "c_prime":
+
+        ExpC_prime.Init(win, ScreenSize)
+    
+    elif exp == "d":
+
+        ExpD.Init(win, ScreenSize)
+    
+    elif exp == "d_prime":
+
+        ExpD_prime.Init(win, ScreenSize)
+
 
     ShowInstruction()
     
@@ -128,6 +180,38 @@ def StartCondition(exp):
         elif exp == 'separation':
             
             ExpSeparation.StartTrial(condition)
+        
+        elif exp == "a":
+            
+            ExpA.StartTrial(condition)
+    
+        elif exp == "a_prime":
+
+            ExpA_prime.StartTrial(condition)
+    
+        elif exp == "b":
+            
+            ExpB.StartTrial(condition)
+    
+        elif exp == "b_prime":
+            
+            ExpB_prime.StartTrial(condition)
+            
+        elif exp == "c":
+            
+            ExpC.StartTrial(condition)
+        
+        elif exp == "c_prime":
+            
+            ExpC_prime.StartTrial(condition)
+        
+        elif exp == "d":
+            
+            ExpD.StartTrial(condition)
+            
+        elif exp == "d_prime":
+            
+            ExpD_prime.StartTrial(condition)
         
         resKey = GetResponse()
         
