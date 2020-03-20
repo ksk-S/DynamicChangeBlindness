@@ -1,0 +1,37 @@
+Download files
+
+Install cygwin
+install gcc and gdb
+https://cs.calvin.edu/courses/cs/112/resources/installingEclipse/cygwin/
+
+download boost
+//put a sortcut to boost/ in emachine/decisional_states-xx/include
+
+cd /cygdrive/c/Users/lana/Desktop/code/epsilon_machine/decisional_states-1.0/examples
+g++ -I../../../cpp_libs/boost_1_55_0 -I../../../epsilonMachine/decisional_states-1.0/include SymbolicSeries.cpp -o SymbolicSeries 
+
+add to env path
+https://www.architectryan.com/2018/03/17/add-to-the-path-on-windows-10/
+the var C:\cygwin\bin
+
+run
+ ./SymbolicSeries.exe
+
+read the graphs
+Install graphviz from cygwin
+
+dot -Tpdf data/example.dot -O
+
+
+====== Even process
+g++ -I../../../cpp_libs/boost_1_55_0 -I../../../epsilonMachine/decisional_states-1.0/include EvenProcess.cpp -o EvenProcess 
+./SymbolicSeries.exe
+
+./EvenProcess.exe evenData.txt 500 5 
+./SymbolicSeries.exe evenData.txt 10 1 em_even
+
+-> gives entropy 0 and empty graph. maybe needs a minimal amount of data?
+
+ ./EvenProcess.exe evenData.txt 50000 5
+ ./SymbolicSeries.exe evenData.txt 10 1 em_even
+-> works
