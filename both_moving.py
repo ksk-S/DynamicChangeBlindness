@@ -8,7 +8,7 @@ import gabor_ball
 
 from enum import IntEnum
 
-save_video = False
+save_video = True
 
 class ChangeType(IntEnum):
     
@@ -26,7 +26,7 @@ change_type = ChangeType.Rotation
 # TODO conssitent case
 ScreenSize =[800, 800]
 speed = 4
-change_angle = 15
+change_angle = 2
 
 # init position
 central_pos = [gabor_ball.total_diameter/2, ScreenSize[1] - (gabor_ball.total_diameter/2)]
@@ -50,11 +50,11 @@ def Change():
     index=random.randrange(0,gabor_ball.n_patches)
 
     if change_type == ChangeType.Rotation:
-        gratings[index].ori = gratings[index].ori + change_angle
+        gratings[index].ori = gratings[index].ori - 20
 
     elif change_type == ChangeType.AllRotation:
         for index in range(gabor_ball.n_patches):
-            gratings[index].ori = gratings[index].ori + change_angle
+            gratings[index].ori = gratings[index].ori - 20
    
     elif change_type == ChangeType.Shift:
         x_pos[index] = x_pos[index] + 2
@@ -91,8 +91,12 @@ while keep_going:
     # move coordinates
     if (status == 0):
         central_pos = [central_pos[0], central_pos[1] - speed]
+        for index in range(gabor_ball.n_patches):
+            gratings[index].ori = gratings[index].ori + change_angle
     elif (status >= 1):
         central_pos = [central_pos[0] + speed, central_pos[1]]
+        for index in range(gabor_ball.n_patches):
+            gratings[index].ori = gratings[index].ori + change_angle
     
     #update positions
     fixation_dot.pos = [central_pos[0] - ScreenSize[0]/2, central_pos[1] - ScreenSize[1]/2]
@@ -113,6 +117,6 @@ while keep_going:
         keep_going = False
 
 if save_video:
-    win.saveMovieFrames('original' + ['rotation','shift','allRotation'][int(change_type)] + '_' + ['','control'][is_control] + '.mp4', fps=40)
+    win.saveMovieFrames('both_moving' + ['rotation','shift','allRotation'][int(change_type)] + '_' + ['','control'][is_control] + '.mp4', fps=40)
 
 win.close()

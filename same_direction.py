@@ -8,7 +8,7 @@ import gabor_ball
 
 from enum import IntEnum
 
-save_video = False
+save_video = True
 
 class ChangeType(IntEnum):
     
@@ -18,7 +18,7 @@ class ChangeType(IntEnum):
 
 # experiment parameter
 # 0 or 1
-is_control = 1
+is_control = 0
 
 change_type = ChangeType.Rotation
 
@@ -29,7 +29,7 @@ speed = 4
 change_angle = 15
 
 # init position
-central_pos = [gabor_ball.total_diameter/2, ScreenSize[1] - (gabor_ball.total_diameter/2)]
+central_pos = [ScreenSize[0]/2, ScreenSize[1] - (gabor_ball.total_diameter/2)]
 
 win = psychopy.visual.Window(
     size=ScreenSize,
@@ -65,37 +65,47 @@ keep_going = True
 
 status = 0
 
+tmp_t = 0
+
 while keep_going:
 #    grating.phase = np.mod(clock.getTime() / 0.5, 1)
-
     # status changes
-    if ( status == 0 and central_pos[1] < (gabor_ball.total_diameter/2) ):
-            
+    if ( status == 0 and central_pos[1] < ScreenSize[1]/2):
         status = 1
+        # central_pos = [central_pos[0], central_pos[1] + speed*2]
+        # status = 2
         
         if is_control == 0:
             Change()
-            
-    elif ( status == 1 and central_pos[0] >  ScreenSize[0]/ 2 ):
+    
+    # elif status == 2 and central_pos[1] < -1.5*(gabor_ball.total_diameter/2):
+    #     keep_going = False
+    elif ( status == 1 and central_pos[1] < 0 ):
+        # central_pos[0] >  ScreenSize[0]/ 2
         
         status = 2
         
         if is_control == 1:
             Change()
         
-    elif ( status == 2 and central_pos[0] > - (gabor_ball.total_diameter/2)  + ScreenSize[0] ):
+    elif ( status == 2 and central_pos[1] < 0 ):
         
         keep_going = False
 
 
     # move coordinates
-    if (status == 0):
+    if status == 1:
+        if tmp_t > 5:
+            central_pos = [central_pos[0], central_pos[1] - speed]
+        else:
+            central_pos = [central_pos[0], central_pos[1]]
+            tmp_t = tmp_t + 1
+    else:
         central_pos = [central_pos[0], central_pos[1] - speed]
-    elif (status >= 1):
-        central_pos = [central_pos[0] + speed, central_pos[1]]
     
     #update positions
     fixation_dot.pos = [central_pos[0] - ScreenSize[0]/2, central_pos[1] - ScreenSize[1]/2]
+    # fixation_dot.pos = [0, -1*gabor_ball.total_diameter*0.74]
     fixation_dot.draw()
     
     for i in range(gabor_ball.n_patches):
@@ -113,6 +123,6 @@ while keep_going:
         keep_going = False
 
 if save_video:
-    win.saveMovieFrames('original' + ['rotation','shift','allRotation'][int(change_type)] + '_' + ['','control'][is_control] + '.mp4', fps=40)
+    win.saveMovieFrames('same_direction' + ['rotation','shift','allRotation'][int(change_type)] + '_' + ['','control'][is_control] + '.mp4', fps=40)
 
 win.close()
