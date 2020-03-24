@@ -10,6 +10,8 @@
 #ifndef __ALLSTATES_H
 #define __ALLSTATES_H
 
+using namespace std;
+
 #include "States.h"
 #include "Common.h"
 #include "ParseTree.h"
@@ -18,8 +20,6 @@
 #include "Hash2.h"
 #include "TransTable.h"
 #include "Test.h"
-
-
 
 //forward declarations
 class State;

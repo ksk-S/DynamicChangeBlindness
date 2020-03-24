@@ -1,0 +1,25 @@
+{
+    "after_params": {
+        "A1": 1.0,
+        "A2": 0.3,
+        "f1": 10,
+        "f2": 50,
+        "theta1": 3.141592653589793,
+        "theta2": 0.25
+    },
+    "before_params": {
+        "A1": 1.0,
+        "A2": 0.3,
+        "f1": 10,
+        "f2": 100,
+        "theta1": 0.0,
+        "theta2": 0.25
+    },
+    "experiment_setting": {
+        "a_ts": 8.0,
+        "b_ts": 12.0,
+        "dt": 0.001,
+        "frame_rate": 25,
+        "visible_points": 100
+    }
+}

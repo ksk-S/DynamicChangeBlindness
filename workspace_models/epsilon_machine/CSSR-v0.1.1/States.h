@@ -8,6 +8,8 @@
 #ifndef __STATES_H
 #define __STATES_H
 
+using namespace std;
+
 #include "Common.h"
 #include "G_Array.h"
 #include "Hash.h"

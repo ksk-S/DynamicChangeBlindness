@@ -11,11 +11,11 @@
 #include <stdlib.h>
 #include <math.h>
 #include <float.h>
-#include <fstream.h>
+#include <fstream>
 #include <stdio.h>
-#include <iostream.h>
-#include <iomanip.h>
-#include <string.h>
+#include <iostream>
+#include <iomanip>
+#include <string>
 #include <ctype.h>
 
 #define INCREMENT 10     //size of array growth

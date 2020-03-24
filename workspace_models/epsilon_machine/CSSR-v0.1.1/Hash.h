@@ -10,6 +10,8 @@
 #define	__HASH_H
 #define HASHSIZE  359
 
+using namespace std;
+
 #include "Common.h"
 #include "States.h"
 

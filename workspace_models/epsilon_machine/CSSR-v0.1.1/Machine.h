@@ -10,6 +10,8 @@
 #ifndef __MACHINE_H
 #define __MACHINE_H
 
+using namespace std;
+
 #include "States.h"
 #include "AllStates.h"
 #include "Common.h"
