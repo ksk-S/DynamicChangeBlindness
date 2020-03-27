@@ -10,6 +10,8 @@
 #define	__HASH2_H
 #define HASHSIZE2  19
 
+using namespace std;
+
 #include "Common.h"
 
 class HashTable2 {

@@ -11,6 +11,8 @@
 #define G_INITIAL_SIZE 50
 #define G_INCREMENT 10
 
+using namespace std;
+
 #include "Common.h"
 
 class ArrayElem

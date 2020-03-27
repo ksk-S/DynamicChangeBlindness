@@ -9,6 +9,8 @@
 #ifndef	__TRANS_H
 #define	__TRANS_H
 
+using namespace std;
+
 #include "Common.h"
 #include "States.h"
 

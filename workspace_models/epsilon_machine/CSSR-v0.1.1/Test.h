@@ -9,6 +9,7 @@
 #ifndef TEST_H
 #define TEST_H
 
+using namespace std;
 
 #include "Common.h"
 
