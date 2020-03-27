@@ -54,7 +54,7 @@ def init(central_pos, ScreenSize, win, n_patches = 6, size_factor=1.5):
     ini_phase = math.pi*2*random.random()
     for i in range(n_patches):
         angle = math.pi*2*i/n_patches #+ 0.25*math.pi
-        ttt = math.pi - angle
+        ttt = math.pi - angle - ini_phase
         x_pos.append(math.cos(angle+ini_phase)*sd/2)
         y_pos.append(math.sin(angle+ini_phase)*sd/2)
 

@@ -8,7 +8,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-
+using namespace std;
 
 #include "Common.h"
 #include "G_Array.h"
