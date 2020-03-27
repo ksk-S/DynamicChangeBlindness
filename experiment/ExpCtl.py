@@ -35,7 +35,7 @@ subId = 0
 ExperimentTypes = {
     # "a"                       : True,
     # "a_prime"                 : True,
-    # "b"                       : True,
+    "b"                       : True,
     "b_prime"                 : True,
     "c"                       : True,
     "c_prime"                 : True,
